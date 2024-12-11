@@ -131,11 +131,6 @@ This structure represents a student record containing:
 
 ---
 
-## License
-This project is licensed under the MIT License.
-
----
-
 ## Contribution
 Feel free to fork the repository, raise issues, or submit pull requests to improve this project.
 
