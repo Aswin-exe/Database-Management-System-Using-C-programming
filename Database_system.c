@@ -313,7 +313,6 @@ void modify(ST* ptr) {
     scanf(" %c", &op);
 
     if ((op == 'R') || (op == 'r')) {
-        // Search by roll number
         printf("Enter the Roll no to be modified:\n");
         scanf("%d", &rn);
         printf("-----------------------------------------------\n");
@@ -332,12 +331,12 @@ void modify(ST* ptr) {
                 } else if ((opt == 'r') || (opt == 'R')) {
                     printf("Enter the new roll number:\n");
                     scanf("%d", &new_roll);
-                    ptr->roll = new_roll; // Change only the roll number
+                    ptr->roll = new_roll;
                     return;
                 } else if ((opt == 'a') || (opt == 'A')) {
                     printf("Enter the new name and roll number:\n");
                     scanf("%29s %d", ptr->name, &new_roll);
-                    ptr->roll = new_roll; // Change both name and roll number
+                    ptr->roll = new_roll;
                     return;
                 } else {
                     printf("Enter a valid option\n");
@@ -349,7 +348,6 @@ void modify(ST* ptr) {
         printf("The Roll no doesn't exist...\n");
 
     } else if ((op == 'N') || (op == 'n')) {
-        // Search by name
         printf("Enter the name to be modified:\n");
         scanf("%29s", name);
         val1 = search(ptr, name);
@@ -360,9 +358,8 @@ void modify(ST* ptr) {
             printf("Sorry, no data for the given name exists...\n");
             return;
         } else {
-            // Display all records with the same name
             printf("Records found with name '%s':\n", name);
-            ST* temp = ptr; // Use a temporary pointer to traverse
+            ST* temp = ptr;
             while (temp != NULL) {
                 if (strcmp(temp->name, name) == 0) {
                     printf("Roll No: %d, Name: %s, Marks: %.2f\n", temp->roll, temp->name, temp->mark);
@@ -371,10 +368,8 @@ void modify(ST* ptr) {
             }
 
             if (val1 > 1) {
-                // Prompt for Roll No after showing all records
                 printf("Multiple records detected. Please provide the Roll no:\n");
                 scanf("%d", &rn);
-                // Now search for the specific record to modify
                 while (ptr != NULL) {
                     if (ptr->roll == rn && strcmp(ptr->name, name) == 0) {
                         printf("-----------------------------------------------\n");
@@ -390,12 +385,12 @@ void modify(ST* ptr) {
                         } else if ((opt == 'r') || (opt == 'R')) {
                             printf("Enter the new roll number:\n");
                             scanf("%d", &new_roll);
-                            ptr->roll = new_roll; // Change only the roll number
+                            ptr->roll = new_roll; 
                             return;
                         } else if ((opt == 'a') || (opt == 'A')) {
                             printf("Enter the new name and roll number:\n");
                             scanf("%29s %d", ptr->name, &new_roll);
-                            ptr->roll = new_roll; // Change both name and roll number
+                            ptr->roll = new_roll; 
                             return;
                         } else {
                             printf("Enter a valid option\n");
@@ -407,8 +402,6 @@ void modify(ST* ptr) {
                 printf("Sorry, this roll no doesn't belong to the given name.\n");
                 return;
             }
-
-            // If only one record exists, modify directly
             while (ptr != NULL) {
                 if (strcmp(ptr->name, name) == 0) {
                     printf("-----------------------------------------------\n");
@@ -423,11 +416,11 @@ void modify(ST* ptr) {
                     } else if ((opt == 'r') || (opt == 'R')) {
                         printf("Enter the new roll number:\n");
                         scanf("%d", &new_roll);
-                        ptr->roll = new_roll; // Change only the roll number
+                        ptr->roll = new_roll; 
                     } else if ((opt == 'a') || (opt == 'A')) {
                         printf("Enter the new name and roll number:\n");
                         scanf("%29s %d", ptr->name, &new_roll);
-                        ptr->roll = new_roll; // Change both name and roll number
+                        ptr->roll = new_roll;
                     }
                     return;
                 }
@@ -436,23 +429,20 @@ void modify(ST* ptr) {
         }
 
     } else if ((op == 'P') || (op == 'p')) {
-        // Search by percentage
         printf("Enter the percentage to be modified:\n");
         scanf("%f", &per);
-        val1 = search_mark(ptr, per); // Assume this function is defined elsewhere
+        val1 = search_mark(ptr, per);
         if (val1 == 1) {
-            // Only one record with this percentage
             while (ptr != NULL) {
                 if (ptr->mark == per) {
                     printf("Enter the new name and roll number:\n");
                     scanf("%29s %d", ptr->name, &new_roll);
-                    ptr->roll = new_roll; // Change both name and roll number
+                    ptr->roll = new_roll;
                     return;
                 }
                 ptr = ptr->next;
             }
         } else if (val1 > 1) {
-            // Multiple records with the same percentage
             printf("Multiple records with the same mark exist. Please provide the Roll no:\n");
             scanf("%d", &rn);
             while (ptr != NULL) {
@@ -460,7 +450,7 @@ void modify(ST* ptr) {
                     if (ptr->mark == per) {
                         printf("Enter the new name and roll number:\n");
                         scanf("%29s %d", ptr->name, &new_roll);
-                        ptr->roll = new_roll; // Change both name and roll number
+                        ptr->roll = new_roll;
                         return;
                     } else {
                         printf("Sorry, this roll no doesn't belong to the given mark\n");
@@ -476,298 +466,6 @@ void modify(ST* ptr) {
         printf("Enter a valid option..\n");
     }
 }
-
-/*
-void modify(ST* ptr) {
-    int rn, val1;
-    float per;
-    char op, name[30], opt;
-
-    if (ptr == NULL) {
-        printf("No data found\n");
-        return;
-    }
-    printf("-----------------------------------------------\n");
-    printf("|Enter which record to search for modification|\n");
-    printf("| R/r: Search a Roll no                       |\n");
-    printf("| N/n: Search a name                          |\n");
-    printf("| P/p: Percentage Based                       |\n");
-    printf("-----------------------------------------------\n");
-    scanf(" %c", &op);
-
-    if ((op == 'R') || (op == 'r')) {
-        // Search by roll number
-        printf("Enter the Roll no to be modified:\n");
-        scanf("%d", &rn);
-        printf("-----------------------------------------------\n");
-        printf("| n/N: Change Name                            |\n");
-        printf("| m/M: Change Mark                            |\n");
-        printf("| a/A: Change Name and Mark                   |\n");
-        printf("-----------------------------------------------\n");
-        scanf(" %c", &opt);
-
-        while (ptr != NULL) {
-            if (ptr->roll == rn) {
-                if ((opt == 'n') || (opt == 'N')) {
-                    printf("Enter the new name:\n");
-                    scanf("%29s", ptr->name);
-                } else if ((opt == 'm') || (opt == 'M')) {
-                    printf("Enter the new mark:\n");
-                    scanf("%f", &ptr->mark);
-                } else if ((opt == 'a') || (opt == 'A')) {
-                    printf("Enter the new name and marks:\n");
-                    scanf("%29s %f", ptr->name, &ptr->mark);
-                } else {
-                    printf("Enter a valid option\n");
-                }
-                return;
-            }
-            ptr = ptr->next;
-        }
-        printf("The Roll no doesn't exist...\n");
-
-    } else if ((op == 'N') || (op == 'n')) {
-        // Search by name
-        printf("Enter the name to be modified:\n");
-        scanf("%29s", name);
-        val1 = search(ptr, name);
-        printf("count=%d\n", val1);
-        printf("-----------------------------------------------\n");
-
-        if (val1 == 0) {
-            printf("Sorry, no data for the given name exists...\n");
-            return;
-        } else {
-            // Display all records with the same name
-            printf("Records found with name '%s':\n", name);
-            ST* temp = ptr; // Use a temporary pointer to traverse
-            while (temp != NULL) {
-                if (strcmp(temp->name, name) == 0) {
-                    printf("Roll No: %d, Name: %s, Marks: %.2f\n", temp->roll, temp->name, temp->mark);
-                }
-                temp = temp->next;
-            }
-
-            if (val1 > 1) {
-                // Prompt for Roll No after showing all records
-                printf("Multiple records detected. Please provide the Roll no:\n");
-                scanf("%d", &rn);
-                // Now search for the specific record to modify
-                while (ptr != NULL) {
-                    if (ptr->roll == rn && strcmp(ptr->name, name) == 0) {
-                        printf("Enter the new name and marks:\n");
-                        scanf("%29s %f", ptr->name, &ptr->mark);
-                        return;
-                    }
-                    ptr = ptr->next;
-                }
-                printf("Sorry, this roll no doesn't belong to the given name.\n");
-                return;
-            }
-            
-            // If only one record exists, modify directly
-            while (ptr != NULL) {
-                if (strcmp(ptr->name, name) == 0) {
-                    printf("Enter the new name and marks:\n");
-                    scanf("%29s %f", ptr->name, &ptr->mark);
-                    return;
-                }
-                ptr = ptr->next;
-            }
-        }
-
-    } else if ((op == 'P') || (op == 'p')) {
-        // Search by percentage
-        printf("Enter the percentage to be modified:\n");
-        scanf("%f", &per);
-        val1 = search_mark(ptr, per); // This function should be defined elsewhere
-        if (val1 == 1) {
-            // Only one record with this percentage
-            while (ptr != NULL) {
-                if (ptr->mark == per) {
-                    printf("Enter the new name and marks:\n");
-                    scanf("%29s %f", ptr->name, &ptr->mark);
-                    return;
-                }
-                ptr = ptr->next;
-            }
-        } else if (val1 > 1) {
-            // Multiple records with the same percentage
-            printf("Multiple records with the same mark exist. Please provide the Roll no:\n");
-            scanf("%d", &rn);
-            while (ptr != NULL) {
-                if (ptr->roll == rn) {
-                    if (ptr->mark == per) {
-                        printf("Enter the new name and marks:\n");
-                        scanf("%29s %f", ptr->name, &ptr->mark);
-                        return;
-                    } else {
-                        printf("Sorry, this roll no doesn't belong to the given mark\n");
-                        return;
-                    }
-                }
-                ptr = ptr->next;
-            }
-        } else {
-            printf("Sorry, no data for the given mark exists.\n");
-        }
-    } else {
-        printf("Enter a valid option..\n");
-    }
-}
-
-void modify(ST* ptr) {
-    int rn, val1, val;
-    float per;
-    char op, name[30], opt, opt2;
-    if (ptr == 0) {
-        printf("No data found\n");
-        return;
-    }
-    printf("-----------------------------------------------\n");
-    printf("|Enter which record to search for modification|\n");
-    printf("| R/r: Search a Roll no                       |\n");
-    printf("| N/n: Search a name                          |\n");
-    printf("| P/p: Percentage Based                       |\n");
-    printf("-----------------------------------------------\n");
-    scanf(" %c", &op);
-    
-    if ((op == 'R') || (op == 'r')) {
-        // Search by roll number
-        printf("Enter the Roll no to be modified:\n");
-        scanf("%d", &rn);
-        printf("-----------------------------------------------\n");
-        printf("| n/N: Change Name                            |\n");
-        printf("| m/M: Change Mark                            |\n");
-        printf("| a/A: Change Name and Mark                   |\n");
-        printf("-----------------------------------------------\n");
-        scanf(" %c", &opt);
-
-        while (ptr != 0) {
-            if (ptr->roll == rn) {
-                if ((opt == 'n') || (opt == 'N')) {
-                    printf("Enter the new name:\n");
-                    scanf("%s", ptr->name);
-                    return;
-                } else if ((opt == 'm') || (opt == 'M')) {
-                    printf("Enter the new mark:\n");
-                    scanf("%f", &ptr->mark);
-                    return;
-                } else if ((opt == 'a') || (opt == 'A')) {
-                    printf("Enter the new name and marks:\n");
-                    scanf("%s %f", ptr->name, &ptr->mark);
-                    return;
-                } else {
-                    printf("Enter a valid option\n");
-                    return;
-                }
-            } else {
-                ptr = ptr->next;
-            }
-        }
-        printf("The Roll no doesn't exist...\n");
-
-    } else if ((op == 'N') || (op == 'n')) {
-        // Search by name
-        printf("Enter the name to be modified:\n");
-        scanf("%s", name);
-        val1 = search(ptr, name);
-        printf("count=%d\n", val1);
-        printf("-----------------------------------------------\n");
-        printf("| n/N: Change Name                            |\n");
-        printf("| m/M: Change Mark                            |\n");
-        printf("| a/A: Change Name and Mark                   |\n");
-        printf("-----------------------------------------------\n");
-        scanf(" %c", &opt2);
-
-        if (val1 == 1) {
-            // Modify the only record with this name
-            while (ptr != 0) {
-                if (strcmp(name, ptr->name) == 0) {
-                    if ((opt2 == 'N') || (opt2 == 'n')) {
-                        printf("Enter the new name :\n");
-                        scanf("%s", ptr->name);
-                        return;
-                    } else if ((opt2 == 'M') || (opt2 == 'm')) {
-                        printf("Enter the new marks:\n");
-                        scanf("%f", &ptr->mark);
-                        return;
-                    } else if ((opt2 == 'a') || (opt2 == 'A')) {
-                        printf("Enter the new name and marks:\n");
-                        scanf("%s %f", ptr->name, &ptr->mark);
-                        return;
-                    } else {
-                        printf("Enter a valid option\n");
-                        return;
-                    }
-                } else {
-                    ptr = ptr->next;
-                }
-            }
-        } else if (val1 > 1) {
-            // Multiple records with the same name exist
-            printf("Multiple records with the same name exist. Please provide the Roll no:\n");
-            scanf("%d", &rn);
-            while (ptr != 0) {
-                if (ptr->roll == rn) {
-                    if (strcmp(ptr->name, name) == 0) {
-                        printf("Enter the new name and marks:\n");
-                        scanf("%s %f", ptr->name, &ptr->mark);
-                        return;
-                    } else {
-                        printf("Sorry, this roll no doesn't belong to the given name\n");
-                        return;
-                    }
-                } else {
-                    ptr = ptr->next;
-                }
-            }
-        } else {
-            printf("Sorry, no data for the given name exists...\n");
-        }
-
-    } else if ((op == 'P') || (op == 'p')) {
-        // Search by percentage
-        printf("Enter the percentage to be modified:\n");
-        scanf("%f", &per);
-        val = search_mark(ptr, per);
-        if (val == 1) {
-            // Only one record with this percentage
-            while (ptr != 0) {
-                if (ptr->mark == per) {
-                    printf("Enter the new name and marks:\n");
-                    scanf("%s %f", ptr->name, &ptr->mark);
-                    return;
-                } else {
-                    ptr = ptr->next;
-                }
-            }
-        } else if (val > 1) {
-            // Multiple records with the same percentage
-            printf("Multiple records with the same mark exist. Please provide the Roll no:\n");
-            scanf("%d", &rn);
-            while (ptr != 0) {
-                if (ptr->roll == rn) {
-                    if (ptr->mark == per) {
-                        printf("Enter the new name and marks:\n");
-                        scanf("%s %f", ptr->name, &ptr->mark);
-                        return;
-                    } else {
-                        printf("Sorry, this roll no doesn't belong to the given mark\n");
-                        return;
-                    }
-                } else {
-                    ptr = ptr->next;
-                }
-            }
-        } else {
-            printf("Sorry, no data for the given mark exists.\n");
-        }
-    } else {
-        printf("Enter a valid option..\n");
-    }
-}
-*/
 
 int search(ST* ptr,char* name)
 {
@@ -877,14 +575,6 @@ void sort(ST* ptr)
 
 				if(strcmp(arr[j]->name,arr[j+1]->name)>0)
 				{
-					/*
-
-					memcpy(&temp.name,&arr[j]->name,size);
-					memcpy(&arr[j]->name,&arr[j+1]->name,size);
-					memcpy(&arr[j+1]->name,&temp.name,size);
-
-					//continue;
-					*/
 					prr=arr[j];
 					arr[j]=arr[j+1];
 					arr[j+1]=prr;
@@ -912,11 +602,6 @@ void sort(ST* ptr)
 			{
 				if(arr[j]->mark > arr[j+1]->mark)
 				{
-					/*
-					memcpy(&temp.name,&arr[j]->name,size);
-					memcpy(&arr[j]->name,&arr[j+1]->name,size);
-					memcpy(&arr[j+1]->name,&temp.name,size);
-					*/
 					prr=arr[j];
 					arr[j]=arr[j+1];
 					arr[j+1]=prr;
